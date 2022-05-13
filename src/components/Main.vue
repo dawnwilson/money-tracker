@@ -5,12 +5,14 @@ let totalIncome = ref(0)
 let totalExpenses = ref(0)
 const currentBalance = computed(() => (totalIncome.value - totalExpenses.value).toFixed(2))
 const newTransaction = ref()
+const transactions = ref([])
 
 function addIncome() {
     const amount = parseFloat(newTransaction.value)
     if (isNaN(amount)) {
         return
     }
+    addToList(amount, "income")
     totalIncome.value += amount
     newTransaction.value = null
 }
@@ -20,8 +22,13 @@ function addExpense() {
     if (isNaN(amount)) {
         return
     }
+    addToList(amount, "expense")
     totalExpenses.value += amount
     newTransaction.value = null
+}
+
+function addToList(transactionAmount, transactionType) {
+    transactions.value.push({ amount: transactionAmount, type: transactionType })
 }
 </script>
 
