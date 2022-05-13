@@ -1,5 +1,6 @@
 <script setup>
 import { ref, computed } from 'vue'
+import TransactionList from './TransactionList.vue'
 
 let totalIncome = ref(0)
 let totalExpenses = ref(0)
@@ -69,6 +70,9 @@ function addToList(transactionAmount, transactionType) {
                     </v-col>
                 </v-row>
             </v-card-content>
+        </v-card>
+        <v-card class="mx-auto" max-width="500" variant="outlined">
+            <TransactionList :transactions="transactions" />
         </v-card>
     </div>
 
