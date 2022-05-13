@@ -46,18 +46,19 @@ function addExpense() {
                 </v-chip>
                 <br />
                 <br />
-                <v-text-field v-model="newTransaction" label="Transaction Amount" variant="outlined" prefix="$" shaped>
+                <v-text-field v-model="newTransaction" label="Enter transaction amount" variant="outlined" prefix="$"
+                    shaped>
                 </v-text-field>
                 <v-row>
                     <v-col>
                         <v-btn @click="addIncome"
                             :disabled="isNaN(newTransaction) || (newTransaction == null) || (newTransaction == '')" flat
-                            prepend-icon="mdi-plus" color="black">Income</v-btn>
+                            prepend-icon="mdi-plus-thick" color="black">Income</v-btn>
                     </v-col>
                     <v-col>
                         <v-btn @click="addExpense"
                             :disabled="isNaN(newTransaction) || (newTransaction == null) || (newTransaction == '')" flat
-                            prepend-icon="mdi-plus" color="red">Expense</v-btn>
+                            prepend-icon="mdi-plus-thick" color="red">Expense</v-btn>
                     </v-col>
                 </v-row>
             </v-card-content>
@@ -65,3 +66,11 @@ function addExpense() {
     </div>
 
 </template>
+
+
+<style>
+button:disabled {
+    pointer-events: auto;
+    cursor: not-allowed;
+}
+</style>
