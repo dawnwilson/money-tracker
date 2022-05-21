@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import TransactionList from './TransactionList.vue'
-import { formatCurrency } from "../utilities/helpers"
+import { formatCurrency, convertCurrencyToInteger } from "../utilities/helpers"
 
 const totalIncome = ref(0)
 const totalExpenses = ref(0)
@@ -18,7 +18,7 @@ function addExpense() {
 }
 
 function addTransaction(type) {
-  const amount = (parseFloat(newTransaction.value) * 100)
+  const amount = convertCurrencyToInteger(newTransaction.value)
   if (isNaN(amount)) {
     return
   }
