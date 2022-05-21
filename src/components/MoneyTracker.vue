@@ -3,6 +3,7 @@ import { ref, computed } from 'vue'
 import TransactionList from './TransactionList.vue'
 import { formatCurrency, convertCurrencyToInteger } from "../utilities/helpers"
 
+const transactionDate = ref()
 const totalIncome = ref(0)
 const totalExpenses = ref(0)
 const currentBalance = computed(() => totalIncome.value - totalExpenses.value)
@@ -35,12 +36,22 @@ function addTransaction(type) {
 }
 
 function addToList(amount, type) {
-  transactions.value.unshift({ amount, type })
+  transactions.value.unshift({ amount, date: transactionDate.value, type })
+  transactionDate.value = null
 }
 
-function isAmountValid() {
+function isDisabled() {
+  return (isAmountNotValid() || isDateEmpty())
+}
+
+function isAmountNotValid() {
   return isNaN(newTransaction.value) || (newTransaction.value == null) || (newTransaction.value == '')
 }
+
+function isDateEmpty() {
+  return transactionDate.value == null
+}
+
 </script>
 
 
@@ -96,10 +107,18 @@ function isAmountValid() {
           prefix="$"
           shaped
         />
+        <input
+          id="date"
+          v-model="transactionDate"
+          type="date"
+          name="transaction-date"
+          min="2018-01-01"
+          max="2023-01-01"
+        >
         <v-row>
           <v-col>
             <v-btn
-              :disabled="isAmountValid()"
+              :disabled="isDisabled()"
               flat
               prepend-icon="mdi-plus-thick"
               color="black"
@@ -110,7 +129,7 @@ function isAmountValid() {
           </v-col>
           <v-col>
             <v-btn
-              :disabled="isAmountValid()"
+              :disabled="isDisabled()"
               flat
               prepend-icon="mdi-plus-thick"
               color="red"

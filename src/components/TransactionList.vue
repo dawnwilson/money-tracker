@@ -27,10 +27,13 @@ function getTypeIcon(type) {
         <th>Enter some transactions to start.</th>
       </tr>
       <tr v-else>
-        <th class="text-left">
+        <th class="text-center">
           Transaction Amount
         </th>
-        <th class="text-left">
+        <th class="text-center">
+          Date
+        </th>
+        <th class="text-center">
           Type
         </th>
       </tr>
@@ -41,6 +44,7 @@ function getTypeIcon(type) {
         :key="item.name"
       >
         <td>{{ formatCurrency(item.amount) }}</td>
+        <td>{{ item.date }}</td>
         <td>
           <v-icon
             :class="{ arrowIncome: isIncome(item.type), arrowExpense: !isIncome(item.type) }"
