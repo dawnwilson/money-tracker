@@ -8,6 +8,7 @@ const totalIncome = ref(0)
 const totalExpenses = ref(0)
 const currentBalance = computed(() => totalIncome.value - totalExpenses.value)
 const newTransaction = ref()
+const description = ref(null)
 const transactions = ref([])
 
 function addIncome() {
@@ -36,8 +37,10 @@ function addTransaction(type) {
 }
 
 function addToList(amount, type) {
-  transactions.value.unshift({ amount, date: transactionDate.value, type })
+  const desc = description.value === '' ? null : description.value
+  transactions.value.unshift({ amount, date: transactionDate.value, description: desc, type })
   transactionDate.value = getMaxDate()
+  description.value = null
 }
 
 function isDisabled() {
@@ -113,6 +116,12 @@ function getMaxDate() {
           label="Enter transaction amount"
           variant="outlined"
           prefix="$"
+          shaped
+        />
+        <v-text-field
+          v-model="description"
+          label="Enter description"
+          variant="outlined"
           shaped
         />
         <input
