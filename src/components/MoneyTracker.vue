@@ -3,7 +3,7 @@ import { ref, computed } from 'vue'
 import TransactionList from './TransactionList.vue'
 import { formatCurrency, convertCurrencyToInteger } from "../utilities/helpers"
 
-const transactionDate = ref()
+const transactionDate = ref(getMaxDate())
 const totalIncome = ref(0)
 const totalExpenses = ref(0)
 const currentBalance = computed(() => totalIncome.value - totalExpenses.value)
@@ -37,7 +37,7 @@ function addTransaction(type) {
 
 function addToList(amount, type) {
   transactions.value.unshift({ amount, date: transactionDate.value, type })
-  transactionDate.value = null
+  transactionDate.value = getMaxDate()
 }
 
 function isDisabled() {
@@ -45,11 +45,19 @@ function isDisabled() {
 }
 
 function isAmountNotValid() {
-  return isNaN(newTransaction.value) || (newTransaction.value == null) || (newTransaction.value == '')
+  return isNaN(newTransaction.value) || (newTransaction.value === null) || (newTransaction.value === '')
 }
 
 function isDateEmpty() {
-  return transactionDate.value == null
+  return transactionDate.value === null
+}
+
+function getMaxDate() {
+  let yourDate = new Date()
+  yourDate.toISOString().split('T')[0]
+  const offset = yourDate.getTimezoneOffset()
+  yourDate = new Date(yourDate.getTime() - (offset*60*1000))
+  return yourDate.toISOString().split('T')[0]
 }
 
 </script>
@@ -113,7 +121,7 @@ function isDateEmpty() {
           type="date"
           name="transaction-date"
           min="2018-01-01"
-          max="2023-01-01"
+          :max="getMaxDate()"
         >
         <v-row>
           <v-col>

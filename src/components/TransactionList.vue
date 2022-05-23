@@ -1,9 +1,12 @@
 <script setup>
+import { computed } from 'vue'
 import { formatCurrency } from "../utilities/helpers"
 
-defineProps({
-  transactions: { type: Array, required: true },
+const props = defineProps({
+  transactions: { type: Array, required: true, default: () => [] },
 })
+
+const sortedTransactions = computed(() => [...props.transactions].sort( (a, b) => new Date(b.date) - new Date(a.date)))
 
 function isIncome(type) {
   return type === "income"
@@ -40,7 +43,7 @@ function getTypeIcon(type) {
     </thead>
     <tbody>
       <tr
-        v-for="item in transactions"
+        v-for="item in sortedTransactions"
         :key="item.name"
       >
         <td>{{ formatCurrency(item.amount) }}</td>
